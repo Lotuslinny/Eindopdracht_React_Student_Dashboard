@@ -1,54 +1,63 @@
 import React, { Component } from 'react';
-import { CSVReader } from 'react-papaparse';
+import './App.css';
+import Tabletop from "tabletop";
+import { VictoryChart, VictoryTheme, VictoryBar } from "victory";
 
-export default class CSVReader2 extends Component {
-  handleOnDrop = (data) => {
-    console.log('---------------------------');
-    console.log(data);
-    console.log('---------------------------');
-  };
+class App extends Component {
+  constructor() {
+    super()
+    this.state = {
+      data: []
+    }
+  }
+  componentDidMount() {
+    Tabletop.init({
+      key: '1Pv1p4vwOe8ZKetA7ealHn-Ulbxp0ycJWwSlF2NZylEE',
+      //key: '1Bh5AV7LwiiWOlK6G-kVDX8YiWJNEyLrrYU6WEYnb_lg',
 
-  handleOnError = (err, file, inputElem, reason) => {
-    console.log(err);
-  };
-
-  handleOnRemoveFile = (data) => {
-    console.log('---------------------------');
-    console.log(data);
-    console.log('---------------------------');
-  };
-
+      callback: googleData => {
+        this.setState({
+          data: googleData
+        })
+      },
+      simpleSheet: true
+    })
+  }
   render() {
+    const { data } = this.state
+    // https://formidable.com/open-source/victory/docs/victory-bar/
     return (
-      <>
-        <h5>Click and Drag Upload</h5>
-        <CSVReader
-          onDrop={this.handleOnDrop}
-          onError={this.handleOnError}
-          addRemoveButton
-          onRemoveFile={this.handleOnRemoveFile}
-        >
-          <span>Drop CSV file here or click to upload.</span>
-        </CSVReader>
-      </>
+      <div className="App">
+        <VictoryChart
+          theme={VictoryTheme.material} domainPadding={10} >
+          <VictoryBar
+            style={{ data: { fill: "#c43a31" } }}
+            data={data}
+            x="assignment"
+            y="difficultylevel" //create average number for common assignments...?
+          />
+        </VictoryChart>
+        <header className="App-header">
+          <h1 className="App-title">React + Google Sheets Demo</h1>
+        </header>
+        <div id="details">
+          {
+            data.map(obj => {
+              return (
+                <div key={obj.id}>
+                  <p>
+                    {obj.name} -
+                  {obj.assignment} -
+                  {obj.difficultylevel} -
+                  {obj.funlevel}</p>
+                </div>
+              )
+            })
+          }
+        </div>
+      </div>
     );
   }
 }
 
-
-
-/* import React from "react";
-import './App.css';
-import DashboardOverview from "./DashboardOverview";
-
-function App() {
-  return (
-    <div className="App">
-      <h1>Hello, Lin Ny!</h1>
-      <DashboardOverview />
-    </div>
-  );
-}
-
 export default App;
- */
