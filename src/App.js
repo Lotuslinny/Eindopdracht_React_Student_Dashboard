@@ -28,6 +28,10 @@ class App extends Component {
     // https://formidable.com/open-source/victory/docs/victory-bar/
     return (
       <div className="App">
+        {/* <header className="App-header">
+          <h1 className="App-title" >Student Dashboard</h1>
+        </header> */}
+        <h1>Helllooooooooooo</h1>
         <VictoryChart
           theme={VictoryTheme.material} domainPadding={10} >
           <VictoryBar
@@ -37,9 +41,6 @@ class App extends Component {
             y="difficultylevel" //create average number for common assignments...?
           />
         </VictoryChart>
-        <header className="App-header">
-          <h1 className="App-title">React + Google Sheets Demo</h1>
-        </header>
         <div id="details">
           {
             data.map(obj => {
