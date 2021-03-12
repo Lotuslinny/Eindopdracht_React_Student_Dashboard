@@ -1,10 +1,10 @@
 import React from "react";
-import Tabletop from "tabletop";
+import Tabletop from "tabletop"
 //import { VictoryChart, VictoryTheme, VictoryBar } from "victory";
 
 class DashboardOverview extends React.Component {
-    constructor() {
-        super()
+    constructor(props) {
+        super(props)
         this.state = {
             data: []
         }
@@ -26,21 +26,23 @@ class DashboardOverview extends React.Component {
         const { data } = this.state
         return (
             <div className="DashboardOverview" id="details">
-                {data.map(obj => {
-                    return (
-                        <div key={obj.id}>
-                            <p>
-                                {obj.name} -
+                <h1>{console.log(this.state.data[1])}</h1>
+                {
+                    data.map(obj => {
+                        return (
+                            <div key={obj.id}>
+                                <p>
+                                    {obj.name} -
                   {obj.assignment} -
                   {obj.difficultylevel} -
                   {obj.funlevel}</p>
-                        </div>
-                    )
-                })
+
+                            </div>
+                        )
+                    })
                 }
             </div>
         )
     }
 }
-
 export default DashboardOverview;
