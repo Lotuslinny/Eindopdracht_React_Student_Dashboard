@@ -1,14 +1,11 @@
 import React from "react";
 
-class ListOfStudents extends React.Component {
-    render() {
-        return (
-            <div></div>
-
-
-        )
-    }
+const ListOfStudents = (props) => {
+    return (
+        <div>
+            <h1 name={props.name}>{console.log(this.state.name)}</h1>
+        </div>
+    )
 }
-
 
 export default ListOfStudents;
