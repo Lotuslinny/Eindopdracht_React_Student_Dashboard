@@ -1,11 +1,17 @@
 import React from "react";
 
 const ListOfStudents = (props) => {
+
     return (
-        <div>
-            <h1 name={props.name}>{console.log(this.state.name)}</h1>
+        <div
+            key={props.id} data={this.props.name}>
+            <h1>{this.props.name}</h1>
         </div>
     )
+
+
+
 }
+
 
 export default ListOfStudents;

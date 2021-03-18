@@ -9,7 +9,22 @@ class DashboardOverview extends React.Component {
         this.state = {
             data: []
         }
+
     }
+    getNamesOFStudents = (arr) => {
+        //const arr = this.state.data.name
+        let sorted_arr = arr.slice().sort();
+        let results = [];
+        for (var i = 0; i < sorted_arr.length - 1; i++) {
+            if (sorted_arr[i + 1] === sorted_arr[i]) {
+                results.push(sorted_arr[i]);
+            }
+        }
+        { console.log(results) }
+        //return results;
+    }
+
+
     componentDidMount() {
         Tabletop.init({
             key: '1Pv1p4vwOe8ZKetA7ealHn-Ulbxp0ycJWwSlF2NZylEE',
@@ -26,8 +41,32 @@ class DashboardOverview extends React.Component {
         const { data } = this.state
         return (
             <div className="DashboardOverview" id="details">
+                {console.log("boo")}
+                <p getNamesOFStudents={this.getNamesOFStudents}></p>
+                {
+                    data.map(obj => {
 
-                <h1>{console.log(this.state.data[1])}</h1>
+                        if (obj.name !== obj.name) {
+                            obj.push(obj.name)
+                            return (
+                                <div key={obj.id}>
+                                    <h1>{obj.name}</h1>
+                                </div>
+                            )
+                        } else {
+                            return "hello"
+                        }
+                    }
+
+
+                    )
+                },
+                {/* } else {
+                                  return "hello"
+                              }
+                          }) 
+                     */}
+
                 {
                     data.map(obj => {
                         return (
@@ -36,13 +75,11 @@ class DashboardOverview extends React.Component {
                                     {obj.name} -
                   {obj.assignment} -
                   {obj.difficultylevel} -
-                  {obj.funlevel}{console.log(obj.name)}</p>
+                  {obj.funlevel}</p>
                             </div>
-
                         )
                     })
                 }
-                {/*  <ListOfStudents name={data.name} /> */}
 
             </div>
         )
