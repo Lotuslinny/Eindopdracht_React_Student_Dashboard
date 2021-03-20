@@ -1,34 +1,24 @@
-import React from "react";
-import Tabletop from "tabletop"
-//import ListOfStudents from "./Components/ListOfStudents";
-//import { VictoryChart, VictoryTheme, VictoryBar } from "victory";
+import React, { Component } from "react";
+import "./App.css";
+import Tabletop from "tabletop";
+import { VictoryChart, VictoryTheme, VictoryBar } from "victory";
 
-class DashboardOverview extends React.Component {
-    constructor(props) {
-        super(props)
+class App extends Component {
+    constructor() {
+        super()
         this.state = {
             data: []
         }
 
-    }
-    getNamesOFStudents = (arr) => {
-        //const arr = this.state.data.name
-        let sorted_arr = arr.slice().sort();
-        let results = [];
-        for (var i = 0; i < sorted_arr.length - 1; i++) {
-            if (sorted_arr[i + 1] === sorted_arr[i]) {
-                results.push(sorted_arr[i]);
-            }
-        }
-        { console.log(results) }
-        //return results;
-    }
 
+
+    }
 
     componentDidMount() {
         Tabletop.init({
-            key: '1Pv1p4vwOe8ZKetA7ealHn-Ulbxp0ycJWwSlF2NZylEE',
-            //key: '1Bh5AV7LwiiWOlK6G-kVDX8YiWJNEyLrrYU6WEYnb_lg',
+            key: "1Pv1p4vwOe8ZKetA7ealHn-Ulbxp0ycJWwSlF2NZylEE",
+            //key: "1Bh5AV7LwiiWOlK6G-kVDX8YiWJNEyLrrYU6WEYnb_lg",
+
             callback: googleData => {
                 this.setState({
                     data: googleData
@@ -37,52 +27,100 @@ class DashboardOverview extends React.Component {
             simpleSheet: true
         })
     }
-    render() {
-        const { data } = this.state
-        return (
-            <div className="DashboardOverview" id="details">
-                {console.log("boo")}
-                <p getNamesOFStudents={this.getNamesOFStudents}></p>
-                {
-                    data.map(obj => {
 
-                        if (obj.name !== obj.name) {
-                            obj.push(obj.name)
-                            return (
-                                <div key={obj.id}>
-                                    <h1>{obj.name}</h1>
-                                </div>
-                            )
-                        } else {
-                            return "hello"
-                        }
-                    }
-
-
-                    )
-                },
-                {/* } else {
-                                  return "hello"
-                              }
-                          }) 
-                     */}
-
-                {
-                    data.map(obj => {
-                        return (
-                            <div key={obj.id}>
-                                <p>
-                                    {obj.name} -
-                  {obj.assignment} -
-                  {obj.difficultylevel} -
-                  {obj.funlevel}</p>
-                            </div>
-                        )
-                    })
+    testFunction(a = "all") {
+        const { data } = this.state;
+        // list with assignments for all 560 rows 
+        const assignments = data.map(function (o) { return o.assignment });
+        // list with 56 unique assignments
+        const distinctAssignments = [...new Set(assignments)];
+        var scores = [];
+        var AverageScore = [];
+        var average = 0;
+        // for every one of the 56 unique assignments, loop.
+        distinctAssignments.forEach(function (distinctAssignment) {
+            // distinctAssignment == SCRUM
+            scores = data.filter(function (score) {
+                // if assignment is distinctAssignment, and difficulty level is higher than -1, return complete row (id, name, assignment, level, funlevel)
+                if (a === 'all') {
+                    return score.assignment === distinctAssignment && score.difficultylevel > -1;
+                } else {
+                    return score.assignment === distinctAssignment && score.difficultylevel > -1 && score.name === a;
                 }
 
+            });
+            // calc average of the difficulty level
+            average = scores.reduce((total, next) => total + parseInt(next.difficultylevel), 0) / scores.length;
+            //  push each distinct assignment with average score into array
+            AverageScore.push({ "Assignment": distinctAssignment, "AverageScore": average })
+        })
+        console.log(AverageScore);
+        return AverageScore;
+    }
+
+
+    render() {
+        // const { data } = this.state
+        // https://formidable.com/open-source/victory/docs/victory-bar/
+        return (
+            <div className="App">
+
+                <VictoryChart
+                    theme={VictoryTheme.material} domainPadding={10} >
+                    <VictoryBar horizontal
+                        className="VictoryBar"
+                        style={{ data: { fill: "#c43a31" } }}
+                        data={this.testFunction('Storm') /*leeg betekent alles ;)*/}
+                        x="Assignment"
+                        y="AverageScore" //create average number for common assignments...?
+                    />
+                </VictoryChart>
+
+
+                <header className="App-header">
+
+                    <h1 className="App-title">React + Google Sheets Demo</h1>
+                </header>
+                <div id="details">
+                    {/*this.testFunction()*/}
+                    { /*           
+            data.map(obj => {
+              return (
+                <div key={obj.id}>
+                  <p>
+                    {obj.name} -
+                  {obj.assignment} - 
+                  {obj.difficultylevel} - 
+                  {obj.funlevel}</p>
+                  
+                </div>               
+                
+              )
+            })
+          }
+        </div>
+        <header className="App-header"></header>
+         <div id="details2">Details 2
+          {
+            
+            data.map(obj => {
+              return (
+                <div key={obj.id}>
+                  <p>
+                    {obj.name} -
+                  {obj.assignment} - 
+                  {obj.difficultylevel} - 
+                  {obj.funlevel}</p>
+                  
+                </div>               
+                
+              )
+            })
+          */ }
+                </div>
             </div>
-        )
+        );
     }
 }
-export default DashboardOverview;
+
+export default App;
