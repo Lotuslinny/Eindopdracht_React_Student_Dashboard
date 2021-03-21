@@ -4,7 +4,15 @@ import Student from "./Student";
 const ListOfStudents = (props) => {
     return (
         <div>
-            <Student getListOfStudents={props.getListOfStudents} />
+            <ul className="ul">
+                {props.students.map((student) => {
+                    return (
+                        //console.log(student)
+                        <Student getListOfStudents={props.getListOfStudents} student={student} />
+                    )
+                })
+                }
+            </ul>
         </div >
     )
 }

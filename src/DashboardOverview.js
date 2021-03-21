@@ -8,10 +8,11 @@ class App extends Component {
     constructor() {
         super()
         this.state = {
-            data: []
+            data: [],
+            filteredName: ""
         }
 
-
+        this.getListOfStudents = this.getListOfStudents.bind(this);
 
     }
 
@@ -27,10 +28,10 @@ class App extends Component {
             },
             simpleSheet: true
         })
-        this.getListOfStudents = this.getListOfStudents.bind(this);
+
     }
 
-    /* testFunction(a = "all") {
+    testFunction(a = "all") {
         const { data } = this.state;
         // list with assignments for all 560 rows 
         const assignments = data.map(function (o) { return o.assignment });
@@ -59,7 +60,7 @@ class App extends Component {
         console.log(AverageScore);
         return AverageScore;
 
-    } */
+    }
     getListOfStudents() {
         const { data } = this.state;
         // list with names of students for all 560 rows 
@@ -102,7 +103,7 @@ class App extends Component {
          console.log(AverageScore);
          return AverageScore; */
     }
-    testFunction(a = 'all') {
+    testFunction(a = "") {
         const { data } = this.state;
         // list with assignments for all 560 rows 
         const assignments = data.map(function (o) { return o.assignment });
@@ -116,7 +117,7 @@ class App extends Component {
             // distinctAssignment == SCRUM
             scores = data.filter(function (score) {
                 // if assignment is distinctAssignment, and difficulty level is higher than -1, return complete row (id, name, assignment, level, funlevel)
-                if (a === 'all') {
+                if (a === "") {
                     return score.assignment === distinctAssignment && score.difficultylevel > -1;
                 } else {
                     return score.assignment === distinctAssignment && score.difficultylevel > -1 && score.name === a;
@@ -134,6 +135,7 @@ class App extends Component {
 
     render() {
         // const { data } = this.state
+        const { filteredName } = this.state;
         // https://formidable.com/open-source/victory/docs/victory-bar/
         return (
             <div className="App" >
@@ -143,7 +145,7 @@ class App extends Component {
                     <VictoryBar horizontal
                         className="VictoryBar"
                         style={{ data: { fill: "#c43a31" } }}
-                        data={this.testFunction('Storm') /*leeg betekent alles ;)*/}
+                        data={this.testFunction(filteredName) /*leeg betekent alles ;)*/}
                         x="Assignment"
                         y="AverageScore" //create average number for common assignments...?
                     />
@@ -185,7 +187,7 @@ class App extends Component {
             })
           */ }
                 </div>
-                <ListOfStudents getListOfStudents={this.getListOfStudents()} />
+                <ListOfStudents students={this.getListOfStudents()} />
             </div>
         );
     }
