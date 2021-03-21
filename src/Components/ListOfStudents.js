@@ -1,15 +1,12 @@
-import React from "react"
+import React from "react";
+import Student from "./Student";
 
 const ListOfStudents = (props) => {
     return (
         <div>
-            <h1 getListOfStudents={props.getListOfStudents}>{props.getListOfStudents}</h1>
+            <Student getListOfStudents={props.getListOfStudents} />
         </div >
     )
-
-
-
 }
-
 
 export default ListOfStudents;
