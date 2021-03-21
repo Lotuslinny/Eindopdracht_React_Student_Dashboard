@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import "./App.css";
 import Tabletop from "tabletop";
 import { VictoryChart, VictoryTheme, VictoryBar } from "victory";
+import ListOfStudents from "./Components/ListOfStudents";
 
 class App extends Component {
     constructor() {
@@ -26,17 +27,18 @@ class App extends Component {
             },
             simpleSheet: true
         })
+        this.getListOfStudents = this.getListOfStudents.bind(this);
     }
 
-    testFunction(a = "all") {
+    /* testFunction(a = "all") {
         const { data } = this.state;
         // list with assignments for all 560 rows 
         const assignments = data.map(function (o) { return o.assignment });
         // list with 56 unique assignments
         const distinctAssignments = [...new Set(assignments)];
-        var scores = [];
-        var AverageScore = [];
-        var average = 0;
+        let scores = [];
+        let AverageScore = [];
+        let average = 0;
         // for every one of the 56 unique assignments, loop.
         distinctAssignments.forEach(function (distinctAssignment) {
             // distinctAssignment == SCRUM
@@ -56,14 +58,85 @@ class App extends Component {
         })
         console.log(AverageScore);
         return AverageScore;
+
+    } */
+    getListOfStudents() {
+        const { data } = this.state;
+        // list with names of students for all 560 rows 
+        const studentNames = data.map(function (o) { return o.name });
+        // list with 10 unique names
+        //console.log(studentNames)
+        const names = [...new Set(studentNames)];
+        return names
     }
 
+    getAssignmentScoreStudent() {
+        const { data } = this.state;
+        // list with names of students for all 560 rows 
+        const studentNames = data.map(function (o) { return o.name });
+        // list with 10 unique names
+        //console.log(studentNames)
+        const distinctNames = [...new Set(studentNames)];
+        return distinctNames
+
+        /*  let assignments = [];
+         //let AverageScore = [];
+         //let average = 0;
+         // for every one of the 56 unique assignments, loop.
+         distinctNames.forEach(function (distinctNames) {
+             // distinctNames == Evelyn
+             assignments = data.filter(function (assignments) {
+                 // if 
+                 if (distinctNames === Evelyn) {
+                     return score.assignment === distinctAssignment && score.difficultylevel > -1;
+                 } else {
+                     return score.assignment === distinctAssignment && score.difficultylevel > -1 && score.name === a;
+                 }
+     
+             });
+             // calc average of the difficulty level
+             average = scores.reduce((total, next) => total + parseInt(next.difficultylevel), 0) / scores.length;
+             //  push each distinct assignment with average score into array
+             AverageScore.push({ "Assignment": distinctAssignment, "AverageScore": average })
+         })
+         console.log(AverageScore);
+         return AverageScore; */
+    }
+    testFunction(a = 'all') {
+        const { data } = this.state;
+        // list with assignments for all 560 rows 
+        const assignments = data.map(function (o) { return o.assignment });
+        // list with 56 unique assignments
+        const distinctAssignments = [...new Set(assignments)];
+        var scores = [];
+        var aScore = [];
+        var average = 0;
+        // for every one of the 56 unique assignments, loop.
+        distinctAssignments.forEach(function (distinctAssignment) {
+            // distinctAssignment == SCRUM
+            scores = data.filter(function (score) {
+                // if assignment is distinctAssignment, and difficulty level is higher than -1, return complete row (id, name, assignment, level, funlevel)
+                if (a === 'all') {
+                    return score.assignment === distinctAssignment && score.difficultylevel > -1;
+                } else {
+                    return score.assignment === distinctAssignment && score.difficultylevel > -1 && score.name === a;
+                }
+
+            });
+            // calc average of the difficulty level
+            average = scores.reduce((total, next) => total + parseInt(next.difficultylevel), 0) / scores.length;
+            //  push each distinct assignment with average score into array
+            aScore.push({ "Assignment": distinctAssignment, "AverageScore": average })
+        })
+        console.log(aScore);
+        return aScore;
+    }
 
     render() {
         // const { data } = this.state
         // https://formidable.com/open-source/victory/docs/victory-bar/
         return (
-            <div className="App">
+            <div className="App" >
 
                 <VictoryChart
                     theme={VictoryTheme.material} domainPadding={10} >
@@ -75,12 +148,6 @@ class App extends Component {
                         y="AverageScore" //create average number for common assignments...?
                     />
                 </VictoryChart>
-
-
-                <header className="App-header">
-
-                    <h1 className="App-title">React + Google Sheets Demo</h1>
-                </header>
                 <div id="details">
                     {/*this.testFunction()*/}
                     { /*           
@@ -118,6 +185,7 @@ class App extends Component {
             })
           */ }
                 </div>
+                <ListOfStudents getListOfStudents={this.getListOfStudents()} />
             </div>
         );
     }

@@ -7,7 +7,10 @@ const App = () => {
   // https://formidable.com/open-source/victory/docs/victory-bar/
   return (
     <div className="App">
-      <h1>Hai, here comes the BarChart...!</h1>
+      <header className="App-header">
+        <h1>Hai, here comes the BarChart...!</h1>
+      </header>
+
       <DashboardOverview />
     </div>
   );
