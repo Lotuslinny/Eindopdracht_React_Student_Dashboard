@@ -13,7 +13,8 @@ class App extends Component {
             assignments: [],
             filterName: ''
         }
-        this.getChartInfo = this.getChartInfo.bind(this);
+        this.getListOfStudents = this.getListOfStudents.bind(this);
+
     }
     componentDidMount() {
         Tabletop.init({
@@ -60,14 +61,25 @@ class App extends Component {
         console.log(aScore)
         return aScore;
     }
+    getListOfStudents() {
+        const { data } = this.state;
+        // list with names of students for all 560 rows 
+        const studentNames = data.map(function (o) { return o.name });
+        // list with 10 unique names
+        //console.log(studentNames)
+        const names = [...new Set(studentNames)];
+        console.log(names)
+        return names
+    }
     render() {
         // const { data } = this.state
-        const { students, filterName } = this.state;
+        const { filterName } = this.state;
         // https://formidable.com/open-source/victory/docs/victory-bar/
         //https://react-google-charts.com/bar-chart
         //https://www.npmjs.com/package/react-google-charts#installation
         return (
             <div className="App" >
+                <ListOfStudents students={this.getListOfStudents()} />
                 <Chart
                     width={'1400px'}
                     height={'2000px'}
@@ -78,17 +90,17 @@ class App extends Component {
                         title: 'Fun and difficulty levels of assignments',
                         chartArea: { width: '50%' },
                         hAxis: {
-                            title: 'Assignment',
-                        },
-                        vAxis: {
                             title: 'Score',
                             minValue: 0,
                             maxValue: 5,
                         },
+                        vAxis: {
+                            title: 'Assignment',
+                        },
                     }}
                     rootProps={{ 'data-testid': '1' }}
                 />
-                <ListOfStudents students={students} />
+
             </div>
         );
     }
