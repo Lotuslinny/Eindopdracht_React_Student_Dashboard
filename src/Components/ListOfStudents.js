@@ -7,7 +7,7 @@ const ListOfStudents = (props) => {
             <ul className="ul">
                 {props.students.map((student) => {
                     return (
-                        <Student key={student.id} student={student} />
+                        <Student key={student.id} handleClickStudentName={props.handleClickStudentName} student={student} />
                     )
                 })
                 }

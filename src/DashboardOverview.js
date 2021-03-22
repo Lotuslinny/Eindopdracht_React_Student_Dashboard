@@ -14,7 +14,7 @@ class App extends Component {
             filterName: ''
         }
         this.getListOfStudents = this.getListOfStudents.bind(this);
-
+        this.handleClickStudentName = this.handleClickStudentName.bind(this);
     }
     componentDidMount() {
         Tabletop.init({
@@ -71,6 +71,12 @@ class App extends Component {
         console.log(names)
         return names
     }
+
+    handleClickStudentName = (event) => {
+        //get alue from clicked student.
+        const clickedStudent = event.target
+        console.log(clickedStudent)
+    }
     render() {
         // const { data } = this.state
         const { filterName } = this.state;
@@ -79,7 +85,7 @@ class App extends Component {
         //https://www.npmjs.com/package/react-google-charts#installation
         return (
             <div className="App" >
-                <ListOfStudents students={this.getListOfStudents()} />
+                <ListOfStudents handleClickStudentName={this.handleClickStudentName} students={this.getListOfStudents()} />
                 <Chart
                     width={'1400px'}
                     height={'2000px'}
@@ -100,7 +106,6 @@ class App extends Component {
                     }}
                     rootProps={{ 'data-testid': '1' }}
                 />
-
             </div>
         );
     }

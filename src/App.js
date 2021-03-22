@@ -8,9 +8,8 @@ const App = () => {
   return (
     <div className="App">
       <header className="App-header">
-        <h1>Hai, here comes the BarChart...!</h1>
+        <h1>Lin Ny's Winc Students Dashboard</h1>
       </header>
-
       <DashboardOverview />
     </div>
   );
