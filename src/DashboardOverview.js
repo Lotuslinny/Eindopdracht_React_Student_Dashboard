@@ -74,7 +74,7 @@ class App extends Component {
 
     handleClickStudentName = (event) => {
         //get alue from clicked student.
-        const clickedStudent = event.target
+        const clickedStudent = event.target.innerText;
         console.log(clickedStudent)
     }
     render() {
