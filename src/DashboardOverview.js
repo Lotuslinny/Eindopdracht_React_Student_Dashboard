@@ -3,13 +3,16 @@ import "./App.css";
 import Tabletop from "tabletop";
 import { VictoryChart, VictoryTheme, VictoryBar } from "victory";
 import ListOfStudents from "./Components/ListOfStudents";
+import Chart from "react-google-charts";
 
 class App extends Component {
     constructor() {
         super()
         this.state = {
             data: [],
-            filteredName: ""
+            names: [],
+            assignments: [],
+            filterName: ''
         }
 
         this.getListOfStudents = this.getListOfStudents.bind(this);
@@ -29,6 +32,38 @@ class App extends Component {
             simpleSheet: true
         })
 
+    }
+    getChartInfo(a = '') {
+        const { data } = this.state;
+        // list with assignments for all 560 rows 
+        const assignments = data.map(function (o) { return o.assignment });
+        // list with 56 unique assignments
+        const distinctAssignments = [...new Set(assignments)];
+        var scores = [];
+        var aScore = [['Assignment', 'Difficulty level', 'Fun level']];
+        var averageDifficultyLevel = 0;
+        var averageFunLevel = 0;
+        // for every one of the 56 unique assignments, loop.
+        distinctAssignments.forEach(function (distinctAssignment) {
+            // distinctAssignment == SCRUM
+            scores = data.filter(function (score) {
+                // if assignment is distinctAssignment, and difficulty level is higher than -1, return complete row (id, name, assignment, level, funlevel)
+                if (a === '') {
+                    return score.assignment === distinctAssignment && score.difficultylevel > -1;
+                } else {
+                    return score.assignment === distinctAssignment && score.difficultylevel > -1 && score.name === a;
+                }
+
+            });
+            // calc average of the difficulty level
+            averageDifficultyLevel = scores.reduce((total, next) => total + parseInt(next.difficultylevel), 0) / scores.length;
+            averageFunLevel = scores.reduce((total, next) => total + parseInt(next.funlevel), 0) / scores.length;
+
+            //  push each distinct assignment with average score into array
+            aScore.push([distinctAssignment, parseFloat(averageDifficultyLevel), parseFloat(averageFunLevel)])
+        })
+        console.log(aScore)
+        return aScore;
     }
 
     testFunction(a = "all") {
@@ -135,17 +170,40 @@ class App extends Component {
 
     render() {
         // const { data } = this.state
-        const { filteredName } = this.state;
+        const { filterName } = this.state;
         // https://formidable.com/open-source/victory/docs/victory-bar/
+        //https://react-google-charts.com/bar-chart
         return (
             <div className="App" >
+                <Chart
+                    width={'1400px'}
+                    height={'2000px'}
+                    chartType="BarChart"
+                    loader={<div>Loading Chart</div>}
+                    data={this.getChartInfo(filterName)}
+                    options={{
+                        title: 'Fun and difficulty levels of assignments',
+                        chartArea: { width: '50%' },
+                        hAxis: {
+                            title: 'Score',
+                            minValue: 0,
+                            maxValue: 5,
+                        },
+                        vAxis: {
+                            title: 'Assignment',
 
+                        },
+
+                    }}
+                    rootProps={{ 'data-testid': '1' }}
+
+                />
                 <VictoryChart
                     theme={VictoryTheme.material} domainPadding={10} >
                     <VictoryBar horizontal
                         className="VictoryBar"
                         style={{ data: { fill: "#c43a31" } }}
-                        data={this.testFunction(filteredName) /*leeg betekent alles ;)*/}
+                        data={this.testFunction(filterName) /*leeg betekent alles ;)*/}
                         x="Assignment"
                         y="AverageScore" //create average number for common assignments...?
                     />
@@ -158,7 +216,7 @@ class App extends Component {
                 <div key={obj.id}>
                   <p>
                     {obj.name} -
-                  {obj.assignment} - 
+                  {obj.assignment} -  
                   {obj.difficultylevel} - 
                   {obj.funlevel}</p>
                   

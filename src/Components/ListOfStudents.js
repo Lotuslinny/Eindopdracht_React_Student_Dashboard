@@ -8,7 +8,7 @@ const ListOfStudents = (props) => {
                 {props.students.map((student) => {
                     return (
                         //console.log(student)
-                        <Student getListOfStudents={props.getListOfStudents} student={student} />
+                        <Student getListOfStudents={props.getListOfStudents()} student={student} />
                     )
                 })
                 }
