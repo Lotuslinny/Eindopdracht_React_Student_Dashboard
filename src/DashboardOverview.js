@@ -62,7 +62,7 @@ class App extends Component {
     }
     render() {
         // const { data } = this.state
-        const { filterName } = this.state;
+        const { students, filterName } = this.state;
         // https://formidable.com/open-source/victory/docs/victory-bar/
         //https://react-google-charts.com/bar-chart
         //https://www.npmjs.com/package/react-google-charts#installation
@@ -78,17 +78,17 @@ class App extends Component {
                         title: 'Fun and difficulty levels of assignments',
                         chartArea: { width: '50%' },
                         hAxis: {
+                            title: 'Assignment',
+                        },
+                        vAxis: {
                             title: 'Score',
                             minValue: 0,
                             maxValue: 5,
                         },
-                        vAxis: {
-                            title: 'Assignment',
-                        },
                     }}
                     rootProps={{ 'data-testid': '1' }}
                 />
-                {/* <ListOfStudents students={this.getChartInfo(filterName)} /> */}
+                <ListOfStudents students={students} />
             </div>
         );
     }
