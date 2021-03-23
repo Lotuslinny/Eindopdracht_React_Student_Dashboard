@@ -71,7 +71,11 @@ class App extends Component {
         console.log(names)
         return names
     }
-
+    handleClickAllStudents = () => {
+        this.setState({
+            filterName: ""
+        })
+    }
     handleClickStudentName = (event) => {
         //get value from clicked student.
         const clickedStudent = event.target.innerText;
@@ -86,6 +90,7 @@ class App extends Component {
         //https://www.npmjs.com/package/react-google-charts#installation
         return (
             <div className="App" >
+                <h2 onClick={this.handleClickAllStudents}>All Students</h2>
                 <ListOfStudents handleClickStudentName={this.handleClickStudentName} students={this.getListOfStudents()} />
                 <Chart
                     width={'1400px'}
