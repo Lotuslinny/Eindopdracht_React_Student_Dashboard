@@ -88,6 +88,7 @@ class App extends Component {
         // https://formidable.com/open-source/victory/docs/victory-bar/
         //https://react-google-charts.com/bar-chart
         //https://www.npmjs.com/package/react-google-charts#installation
+        //https://www.npmjs.com/package/multiselect-react-dropdown
         return (
             <div className="App" >
                 <h2 onClick={this.handleClickAllStudents}>All Students</h2>
