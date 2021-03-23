@@ -29,22 +29,22 @@ class App extends Component {
             simpleSheet: true
         })
     }
-    getChartInfo(a = '') {
+    getChartInfo(a = "") {
         const { data } = this.state;
         // list with assignments for all 560 rows 
         const assignments = data.map(function (o) { return o.assignment });
         // list with 56 unique assignments
         const distinctAssignments = [...new Set(assignments)];
-        var scores = [];
-        var aScore = [['Assignment', 'Difficulty level', 'Fun level']];
-        var averageDifficultyLevel = 0;
-        var averageFunLevel = 0;
+        let scores = [];
+        let aScore = [['Assignment', 'Difficulty level', 'Fun level']];
+        let averageDifficultyLevel = 0;
+        let averageFunLevel = 0;
         // for every one of the 56 unique assignments, loop.
         distinctAssignments.forEach(function (distinctAssignment) {
             // distinctAssignment == SCRUM
             scores = data.filter(function (score) {
                 // if assignment is distinctAssignment, and difficulty level is higher than -1, return complete row (id, name, assignment, level, funlevel)
-                if (a === '') {
+                if (a === "") {
                     return score.assignment === distinctAssignment && score.difficultylevel > -1;
                 } else {
                     return score.assignment === distinctAssignment && score.difficultylevel > -1 && score.name === a;
@@ -73,10 +73,11 @@ class App extends Component {
     }
 
     handleClickStudentName = (event) => {
-        //get alue from clicked student.
+        //get value from clicked student.
         const clickedStudent = event.target.innerText;
-        console.log(clickedStudent)
+        this.setState({ filterName: clickedStudent })
     }
+
     render() {
         // const { data } = this.state
         const { filterName } = this.state;
