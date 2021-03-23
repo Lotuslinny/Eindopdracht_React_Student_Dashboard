@@ -3,6 +3,7 @@ import "./App.css";
 import Tabletop from "tabletop";
 import ListOfStudents from "./Components/ListOfStudents";
 import Chart from "react-google-charts";
+import MultiSelect from "./Components/MultiSelect"
 
 class App extends Component {
     constructor() {
@@ -12,7 +13,10 @@ class App extends Component {
             names: [],
             assignments: [],
             filterName: ''
-        }
+        },
+        {
+            options: [{ name: 'Srigar', id: 1 }, { name: 'Sam', id: 2 }]
+        };
         this.getListOfStudents = this.getListOfStudents.bind(this);
         this.handleClickStudentName = this.handleClickStudentName.bind(this);
     }
@@ -85,7 +89,7 @@ class App extends Component {
     render() {
         // const { data } = this.state
         const { filterName } = this.state;
-        // https://formidable.com/open-source/victory/docs/victory-bar/
+        //https://formidable.com/open-source/victory/docs/victory-bar/
         //https://react-google-charts.com/bar-chart
         //https://www.npmjs.com/package/react-google-charts#installation
         //https://www.npmjs.com/package/multiselect-react-dropdown
@@ -93,6 +97,13 @@ class App extends Component {
             <div className="App" >
                 <h2 onClick={this.handleClickAllStudents}>All Students</h2>
                 <ListOfStudents handleClickStudentName={this.handleClickStudentName} students={this.getListOfStudents()} />
+                <MultiSelect
+                    options={this.state.options} // Options to display in the dropdown
+                    selectedValues={this.state.selectedValue} // Preselected value to persist in dropdown
+                    onSelect={this.onSelect} // Function will trigger on select event
+                    onRemove={this.onRemove} // Function will trigger on remove event
+                    displayValue="name" // Property name to display in the dropdown options
+                />
                 <Chart
                     width={'1400px'}
                     height={'2000px'}
