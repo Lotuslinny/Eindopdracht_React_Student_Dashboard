@@ -3,7 +3,8 @@ import "./App.css";
 import Tabletop from "tabletop";
 import ListOfStudents from "./Components/ListOfStudents";
 import Chart from "react-google-charts";
-import MultiSelect from "./Components/MultiSelect"
+import { Multiselect } from "multiselect-react-dropdown";
+
 
 class App extends Component {
     constructor() {
@@ -12,14 +13,13 @@ class App extends Component {
             data: [],
             names: [],
             assignments: [],
-            filterName: ''
-        },
-        {
-            options: [{ name: 'Srigar', id: 1 }, { name: 'Sam', id: 2 }]
-        };
+            filterName: "",
+            assignmentOptions: []
+        }
         this.getListOfStudents = this.getListOfStudents.bind(this);
         this.handleClickStudentName = this.handleClickStudentName.bind(this);
     }
+
     componentDidMount() {
         Tabletop.init({
             key: "1Pv1p4vwOe8ZKetA7ealHn-Ulbxp0ycJWwSlF2NZylEE",
@@ -27,11 +27,26 @@ class App extends Component {
 
             callback: googleData => {
                 this.setState({
-                    data: googleData
+                    data: googleData,
+                    names: this.getDistinctValues(googleData, "name")
                 })
             },
             simpleSheet: true
         })
+    }
+    getDistinctValues(data, filterBy) {
+        /*use data, and map it using the filterBy and make it distinct by creating a new Set
+        const names = getDistinctValues(data, "name"); // will give all unique names from the data object array    
+        */
+        var dataValues = [...new Set(data.map(function (o) { return o[filterBy] }))];
+        var namesArr = [];
+        var id = 0;
+        dataValues.forEach((item) => {
+            id = id + 1;
+            namesArr.push({ id, item })
+        })
+        console.log("hai" + namesArr)
+        return namesArr;
     }
     getChartInfo(a = "") {
         const { data } = this.state;
@@ -86,9 +101,14 @@ class App extends Component {
         this.setState({ filterName: clickedStudent })
     }
 
+    onSelectNames(selectedList, selectedItem) {
+        return (selectedList, selectedItem)
+    }
+
     render() {
-        // const { data } = this.state
-        const { filterName } = this.state;
+        //const { data } = this.state
+        //const { names } = this.state;
+        //console.log(names);
         //https://formidable.com/open-source/victory/docs/victory-bar/
         //https://react-google-charts.com/bar-chart
         //https://www.npmjs.com/package/react-google-charts#installation
@@ -97,19 +117,20 @@ class App extends Component {
             <div className="App" >
                 <h2 onClick={this.handleClickAllStudents}>All Students</h2>
                 <ListOfStudents handleClickStudentName={this.handleClickStudentName} students={this.getListOfStudents()} />
-                <MultiSelect
-                    options={this.state.options} // Options to display in the dropdown
+                <Multiselect
+                    options={this.state.names} // Options to display in the dropdown
                     selectedValues={this.state.selectedValue} // Preselected value to persist in dropdown
-                    onSelect={this.onSelect} // Function will trigger on select event
-                    onRemove={this.onRemove} // Function will trigger on remove event
-                    displayValue="name" // Property name to display in the dropdown options
+                    onSelect={this.onSelectNames} // Function will trigger on select event
+                    onRemove={this.onSelectNames} // Function will trigger on remove event
+                    displayValue="item" // Property name to display in the dropdown options
                 />
                 <Chart
-                    width={'1400px'}
-                    height={'2000px'}
+                    className={"bar"}
+                    width={'50em'}
+                    height={'70em'}
                     chartType="BarChart"
                     loader={<div>Loading Chart</div>}
-                    data={this.getChartInfo(filterName)}
+                    data={this.getChartInfo(this.state.filterName)}
                     options={{
                         title: 'Fun and difficulty levels of assignments',
                         chartArea: { width: '50%' },
@@ -123,6 +144,26 @@ class App extends Component {
                         },
                     }}
                     rootProps={{ 'data-testid': '1' }}
+                />
+                <Chart
+                    className={"line"}
+                    width={'47em'}
+                    height={'50em'}
+                    chartType="LineChart"
+                    loader={<div>Loading Chart</div>}
+                    data={this.getChartInfo(this.state.filterName)}
+                    options={{
+                        hAxis: {
+                            title: 'Assignment',
+                        },
+                        vAxis: {
+                            title: 'Fun and difficulty levels of assignments',
+                        },
+                        series: {
+                            1: { curveType: 'function' },
+                        },
+                    }}
+                    rootProps={{ 'data-testid': '2' }}
                 />
             </div>
         );
