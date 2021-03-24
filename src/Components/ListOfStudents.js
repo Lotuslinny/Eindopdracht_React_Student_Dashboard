@@ -4,7 +4,7 @@ import Student from "./Student";
 const ListOfStudents = (props) => {
     return (
         <div>
-            <ul className="ul">
+            <ul className="header__listOfStudents-ul">
                 {props.students.map((student) => {
                     return (
                         <Student key={student.id} handleClickStudentName={props.handleClickStudentName} student={student} />

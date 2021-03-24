@@ -1,15 +1,36 @@
 body {
+  display:inline-flex;
   margin: 1em;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
+    font-size: 20px;
+    color:#00007D;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
-
-.student {
-   list-style-type: none; 
+.box {
+ display: inline-flex; 
+ width: 15em;
 }
+.header__ListOfStudents-student {
+  list-style-type: none; 
+  padding-bottom:1em;
+  margin-right:10em;
+}
+.header__ListOfStudents-student {
+  margin: 0em;
+}
+.bar{
+  margin-right:25em;
+}
+.footer{
+  background-color:#00007D; 
+  color: #ffffffff;
+  border: dashed;
+  margin-left:4em;
+  padding:0.5em;
+ }
 @media (min-width: 768px) {
   .body {
         height:100%;

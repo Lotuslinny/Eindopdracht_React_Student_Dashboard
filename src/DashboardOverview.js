@@ -28,43 +28,30 @@ class App extends Component {
     }
     getChartData(a = "") {
         const { data } = this.state;
-        // list with assignments for all 560 rows 
-        const assignments = data.map(function (o) { return o.assignment });
-        // list with 56 unique assignments
+        const assignments = data.map(ass => { return ass.assignment }); // I'm an ass.assin *<:o)
         const distinctAssignments = [...new Set(assignments)];
         let scores = [];
         let averageScore = [['Assignment', 'Difficulty level', 'Fun level']];
         let averageDifficultyLevel = 0;
         let averageFunLevel = 0;
-        // for every one of the 56 unique assignments, loop.
-        distinctAssignments.forEach(function (distinctAssignment) {
-            // distinctAssignment == SCRUM
-            scores = data.filter(function (score) {
-                // if assignment is distinctAssignment, and difficulty level is higher than -1, return complete row (id, name, assignment, level, funlevel)
+        distinctAssignments.forEach(distinctAssignment => {
+            scores = data.filter(score => {
                 if (a === "") {
                     return score.assignment === distinctAssignment && score.difficultylevel > -1;
                 } else {
                     return score.assignment === distinctAssignment && score.difficultylevel > -1 && score.name === a;
                 }
             });
-            // calc average of the difficulty level
             averageDifficultyLevel = scores.reduce((total, next) => total + parseInt(next.difficultylevel), 0) / scores.length;
             averageFunLevel = scores.reduce((total, next) => total + parseInt(next.funlevel), 0) / scores.length;
-
-            //  push each distinct assignment with average score into array
             averageScore.push([distinctAssignment, parseFloat(averageDifficultyLevel), parseFloat(averageFunLevel)])
         })
-        console.log(averageScore)
         return averageScore;
     }
     getListOfStudents() {
         const { data } = this.state;
-        // list with names of students for all 560 rows 
-        const studentNames = data.map(function (o) { return o.name });
-        // list with 10 unique names
-        //console.log(studentNames)
+        const studentNames = data.map(stud => { return stud.name }); //My husband is a stud! :p
         const names = [...new Set(studentNames)];
-        console.log(names)
         return names
     }
     handleClickAllStudents = () => {
@@ -73,43 +60,39 @@ class App extends Component {
         })
     }
     handleClickStudentName = (event) => {
-        //get value from clicked student.
         const clickedStudent = event.target.innerText;
         this.setState({ filterName: clickedStudent })
     }
     render() {
-        //const { data } = this.state
-        //const { names } = this.state;
-        //console.log(names);
-        //https://formidable.com/open-source/victory/docs/victory-bar/
-        //https://react-google-charts.com/bar-chart
-        //https://www.npmjs.com/package/react-google-charts#installation
-        //https://www.npmjs.com/package/multiselect-react-dropdown
         return (
             <div className="App" >
-                <h2 onClick={this.handleClickAllStudents}>All Students</h2>
-                <ListOfStudents handleClickStudentName={this.handleClickStudentName} students={this.getListOfStudents()} />
-                <Chart
-                    className={"bar"}
-                    width={'50em'}
-                    height={'70em'}
-                    chartType="BarChart"
-                    loader={<div>Loading Chart</div>}
-                    data={this.getChartData(this.state.filterName)}
-                    options={{
-                        title: 'Fun and difficulty levels of assignments',
-                        chartArea: { width: '50%' },
-                        hAxis: {
-                            title: 'Score',
-                            minValue: 0,
-                            maxValue: 5,
-                        },
-                        vAxis: {
-                            title: 'Assignment',
-                        },
-                    }}
-                    rootProps={{ 'data-testid': '1' }}
-                />
+                <div className="box">
+                    <div className="header">
+                        <h2 className="header__allstudents" onClick={this.handleClickAllStudents}>All Students</h2>
+                        <ListOfStudents className="header__listOfStudents" handleClickStudentName={this.handleClickStudentName} students={this.getListOfStudents()} />
+                    </div>
+                    <Chart
+                        className={"bar"}
+                        width={'50em'}
+                        height={'50em'}
+                        chartType="BarChart"
+                        loader={<div>Loading Chart</div>}
+                        data={this.getChartData(this.state.filterName)}
+                        options={{
+                            title: 'Fun and difficulty levels of assignments',
+                            chartArea: { width: '50%' },
+                            hAxis: {
+                                title: 'Score',
+                                minValue: 0,
+                                maxValue: 5,
+                            },
+                            vAxis: {
+                                title: 'Assignment',
+                            },
+                        }}
+                        rootProps={{ 'data-testid': '1' }}
+                    />
+                </div>
                 <Chart
                     className={"line"}
                     width={'47em'}
@@ -130,6 +113,7 @@ class App extends Component {
                     }}
                     rootProps={{ 'data-testid': '2' }}
                 />
+                <footer className="footer">Iedereen bedankt voor het mogelijk maken van deze Eindbaas!!! Groetjes, Lin Ny.</footer>
             </div>
         );
     }
