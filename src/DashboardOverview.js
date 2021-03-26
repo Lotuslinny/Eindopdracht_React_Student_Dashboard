@@ -69,7 +69,7 @@ class DashboardOverview extends Component {
                 <div className="box">
                     <div className="header">
                         <button className="header__button" onClick={this.handleClickAllStudents}>All Students</button>
-                        <ListOfStudents className="header__listOfStudents" handleClickStudentName={this.handleClickStudentName} students={this.getListOfStudents()} />
+                        <ListOfStudents className="header__listOfStudents" to={this.student} handleClickStudentName={this.handleClickStudentName} students={this.getListOfStudents()} />
                     </div>
                     <Chart
                         className={"bar"}
