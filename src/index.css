@@ -13,18 +13,13 @@ body {
  display: inline-flex; 
  width: 15em;
 }
-.header__button {
-  background-color: #00007D;
-  color:#ffffffff;
-  margin-left: 2em;
+.header__ListOfStudents-student {
+  list-style-type: none; 
+  padding-bottom:1em;
+  margin-right:10em;
 }
-.header__ListOfStudents-link{
-  color:#ffffffff;
-}
-.header__ListOfStudents-button {
-  width: 5em;
-  background-color:#4c5eff;
-  color:#ffffffff;
+.header__ListOfStudents-student {
+  margin: 0em;
 }
 .bar{
   margin-right:25em;

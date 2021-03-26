@@ -7,7 +7,7 @@ const ListOfStudents = (props) => {
             <ul className="header__listOfStudents-ul">
                 {props.students.map((student) => {
                     return (
-                        <Student key={student.id} to={props.student} handleClickStudentName={props.handleClickStudentName} student={student} />
+                        <Student key={student.id} handleClickStudentName={props.handleClickStudentName} student={student} />
                     )
                 })
                 }

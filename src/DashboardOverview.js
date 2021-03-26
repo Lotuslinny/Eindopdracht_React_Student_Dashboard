@@ -1,9 +1,14 @@
 import React, { Component } from "react";
-import "./App.css";
+import "./index.css";
 import Tabletop from "tabletop";
 import ListOfStudents from "./Components/ListOfStudents";
 import Chart from "react-google-charts";
 import Routing from "./Components/Routing"
+import {
+    Switch,
+    Route,
+    Link
+} from "react-router-dom";
 
 class DashboardOverview extends Component {
     constructor() {
@@ -65,59 +70,65 @@ class DashboardOverview extends Component {
         const clickedStudent = event.target.innerText;
         this.setState({ filterName: clickedStudent })
     }
-
     render() {
         return (
             <div className="App" >
-                <Routing getChartData={this.getChartData} />
                 <div className="box">
                     <div className="header">
-                        <button className="header__button" onClick={this.handleClickAllStudents}>All Students</button>
-                        <ListOfStudents className="header__listOfStudents" to={this.student} handleClickStudentName={this.handleClickStudentName} students={this.getListOfStudents()} />
+                        <Link className="header__ListOfStudents-student" key="Root" onClick={this.handleClickAllStudents} to="/">All students</Link>
+                        <ListOfStudents className="header__listOfStudents" handleClickStudentName={this.handleClickStudentName} students={this.getListOfStudents()} />
                     </div>
-                    <Chart
-                        className={"bar"}
-                        width={'50em'}
-                        height={'50em'}
-                        chartType="BarChart"
-                        loader={<div>Loading Chart</div>}
-                        data={this.getChartData(this.state.filterName)}
-                        options={{
-                            title: 'Fun and difficulty levels of assignments',
-                            chartArea: { width: '50%' },
-                            hAxis: {
-                                title: 'Score',
-                                minValue: 0,
-                                maxValue: 5,
-                            },
-                            vAxis: {
-                                title: 'Assignment',
-                            },
-                        }}
-                        rootProps={{ 'data-testid': '1' }}
-                    />
+                    <Switch>
+                        <Routing getChartData={this.getChartData} path="/:id" />
+                        <Route exact path="/">
+
+                            <Chart
+                                className={"bar"}
+                                width={'50em'}
+                                height={'50em'}
+                                chartType="BarChart"
+                                loader={<div>Loading Chart</div>}
+                                data={this.getChartData(this.state.filterName)}
+                                options={{
+                                    title: "All student's average bar chart of Fun and difficulty levels of assignments",
+                                    chartArea: { width: '50%' },
+                                    hAxis: {
+                                        title: 'Score',
+                                        minValue: 0,
+                                        maxValue: 5,
+                                    },
+                                    vAxis: {
+                                        title: 'Assignment',
+                                    },
+                                }}
+                                rootProps={{ 'data-testid': '1' }}
+                            />
+
+                            <Chart
+                                className={"line"}
+                                width={'47em'}
+                                height={'50em'}
+                                chartType="LineChart"
+                                loader={<div>Loading Chart</div>}
+                                data={this.getChartData(this.state.filterName)}
+                                options={{
+                                    title: "All student's average line chart of Fun and difficulty levels of assignments",
+                                    hAxis: {
+                                        title: 'Assignment',
+                                    },
+                                    vAxis: {
+                                        title: 'Fun and difficulty levels of assignments',
+                                    },
+                                    series: {
+                                        1: { curveType: 'function' },
+                                    },
+                                }}
+                                rootProps={{ 'data-testid': '2' }}
+                            />
+                            <footer className="footer">Iedereen bedankt voor het mogelijk maken van deze Eindbaas!!! Groetjes, Lin Ny.</footer>
+                        </Route>
+                    </Switch>
                 </div>
-                <Chart
-                    className={"line"}
-                    width={'47em'}
-                    height={'50em'}
-                    chartType="LineChart"
-                    loader={<div>Loading Chart</div>}
-                    data={this.getChartData(this.state.filterName)}
-                    options={{
-                        hAxis: {
-                            title: 'Assignment',
-                        },
-                        vAxis: {
-                            title: 'Fun and difficulty levels of assignments',
-                        },
-                        series: {
-                            1: { curveType: 'function' },
-                        },
-                    }}
-                    rootProps={{ 'data-testid': '2' }}
-                />
-                <footer className="footer">Iedereen bedankt voor het mogelijk maken van deze Eindbaas!!! Groetjes, Lin Ny.</footer>
             </div>
         );
     }
