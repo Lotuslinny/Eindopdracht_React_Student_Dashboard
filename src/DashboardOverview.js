@@ -4,7 +4,7 @@ import Tabletop from "tabletop";
 import ListOfStudents from "./Components/ListOfStudents";
 import Chart from "react-google-charts";
 
-class App extends Component {
+class DashboardOverview extends Component {
     constructor() {
         super()
         this.state = {
@@ -68,7 +68,7 @@ class App extends Component {
             <div className="App" >
                 <div className="box">
                     <div className="header">
-                        <h2 className="header__allstudents" onClick={this.handleClickAllStudents}>All Students</h2>
+                        <button className="header__button" onClick={this.handleClickAllStudents}>All Students</button>
                         <ListOfStudents className="header__listOfStudents" handleClickStudentName={this.handleClickStudentName} students={this.getListOfStudents()} />
                     </div>
                     <Chart
@@ -119,4 +119,4 @@ class App extends Component {
     }
 }
 
-export default App;
+export default DashboardOverview;

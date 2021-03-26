@@ -4,7 +4,7 @@ const Student = (props) => {
   console.log(`student: ${props.student}`)
   return (
     <div>
-      <li className="header__ListOfStudents-student" key={props.id} onClick={props.handleClickStudentName} student={props.student}>{props.student}</li>
+      <button className="header__ListOfStudents-button" key={props.id} onClick={props.handleClickStudentName} student={props.student}>{props.student}</button>
     </div >
   )
 }
