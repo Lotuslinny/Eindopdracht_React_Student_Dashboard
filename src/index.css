@@ -18,6 +18,9 @@ body {
   color:#ffffffff;
   margin-left: 2em;
 }
+.header__ListOfStudents-link{
+  color:#ffffffff;
+}
 .header__ListOfStudents-button {
   width: 5em;
   background-color:#4c5eff;

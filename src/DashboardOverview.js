@@ -3,6 +3,7 @@ import "./App.css";
 import Tabletop from "tabletop";
 import ListOfStudents from "./Components/ListOfStudents";
 import Chart from "react-google-charts";
+import Routing from "./Components/Routing"
 
 class DashboardOverview extends Component {
     constructor() {
@@ -14,6 +15,7 @@ class DashboardOverview extends Component {
             filterName: "",
         }
         this.handleClickStudentName = this.handleClickStudentName.bind(this);
+        this.getChartData = this.getChartData.bind(this);
     }
     componentDidMount() {
         Tabletop.init({
@@ -63,9 +65,11 @@ class DashboardOverview extends Component {
         const clickedStudent = event.target.innerText;
         this.setState({ filterName: clickedStudent })
     }
+
     render() {
         return (
             <div className="App" >
+                <Routing getChartData={this.getChartData} />
                 <div className="box">
                     <div className="header">
                         <button className="header__button" onClick={this.handleClickAllStudents}>All Students</button>

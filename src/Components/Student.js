@@ -1,8 +1,6 @@
 import React from "react";
 import {
   BrowserRouter as Router,
-  Switch,
-  Route,
   Link
 } from "react-router-dom";
 
@@ -11,8 +9,7 @@ const Student = (props) => {
   return (
     <Router>
       <div>
-        <button className="header__ListOfStudents-button" key={props.id} onClick={props.handleClickStudentName} student={props.student}>{props.student}</button>
-        <Route to={props.student}>{props.student}</Route>
+        <Link><button className="header__ListOfStudents-button" key={props.id} onClick={props.handleClickStudentName} getChartData={props.getChartData} student={props.student}>{props.student}</button></Link>
       </div >
     </Router>
   )
